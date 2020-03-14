@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DcrApplication {
 
 	public static void main(String[] args) {
-		//testing jenkins integration
 		SpringApplication.run(DcrApplication.class, args);
 	}
 }
