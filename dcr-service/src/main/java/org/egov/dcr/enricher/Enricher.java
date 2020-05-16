@@ -1,5 +1,7 @@
 package org.egov.dcr.enricher;
 
+import java.util.UUID;
+
 import org.egov.dcr.config.DcrConfiguration;
 import org.egov.dcr.repository.IdGenRepository;
 import org.egov.dcr.web.models.DcrRequest;
@@ -22,6 +24,7 @@ public class Enricher {
 	
 	public void enrich(DcrRequest dcrRequest) {
 		//setDcrId(dcrRequest);
+		dcrRequest.getDcr().setId(UUID.randomUUID().toString());
 	}
 	
 	private void setDcrId(DcrRequest dcrRequest) {
