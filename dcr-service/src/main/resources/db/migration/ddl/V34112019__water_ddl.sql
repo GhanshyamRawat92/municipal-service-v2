@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS dcr_application;
-
 CREATE TABLE dcr_application
 (
   id character varying(64) NOT NULL,

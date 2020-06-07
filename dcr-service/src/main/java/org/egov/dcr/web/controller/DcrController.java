@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/dcr")
+@Slf4j
 public class DcrController {
 	
 	
@@ -31,7 +34,7 @@ public class DcrController {
 	}
 	@RequestMapping(value = "/_create", method = RequestMethod.POST)
 	public ResponseEntity<DcrResponse> create(@RequestBody @Valid DcrRequest dcrRequest){
-		
+		log.info("DcrController:"+ dcrRequest);
 		Dcr dcr =  dcrService.create(dcrRequest);
 		DcrResponse dcrResponse = DcrResponse.builder().dcrs(Collections.singleton(dcr)).build();
 		return new ResponseEntity<>(dcrResponse, HttpStatus.CREATED);
