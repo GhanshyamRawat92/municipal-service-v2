@@ -1,13 +1,23 @@
-FROM openjdk:8
+FROM maven:3.6.1-jdk-8-alpine as build
 
-# INSTRUCTIONS ON HOW TO BUILD JAR:
-# Move to the location where pom.xml is exist in project and build project using below command
-# "mvn clean package"
-ADD target/dcr-service-0.0.1-SNAPSHOT.jar dcr-service-0.0.1-SNAPSHOT.jar
+WORKDIR /app
+
+COPY ./pom.xml .
+
+COPY ./src ./src
+
+RUN mvn -B -f /app/pom.xml dependency:go-offline
+
+
+FROM openjdk:8-jdk-alpine
+
+WORKDIR /opt/app
+
+COPY  --from=build /app/target/*.jar /opt/app/*.jar
 
 EXPOSE 8098
 
-ENTRYPOINT ["java","-jar","dcr-service-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/opt/app/*.jar"]
 
 
 #COPY start.sh /usr/bin/start.sh
@@ -15,8 +25,3 @@ ENTRYPOINT ["java","-jar","dcr-service-0.0.1-SNAPSHOT.jar"]
 #RUN chmod +x /usr/bin/start.sh
 
 #CMD ["/usr/bin/start.sh"]
-
-# NOTE: the two 'RUN' commands can probably be combined inside of a single
-# script (i.e. RUN build-and-install-app.sh) so that we can also clean up the
-# extra files created during the `mvn package' command. that step inflates the
-# resultant image by almost 1.0GB.
